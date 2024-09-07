@@ -26,7 +26,7 @@ router.post("/create", userdetails, async (req, res) => {
       description: description,
       datecreated: Date.now(),
     });
-    res.status(201).json({ data: createNote });
+    res.status(201).json({ data: createNote,msg:"Success" });
   } catch (error) {
     res.status(500).json({ message: "Error creating note" });
   }

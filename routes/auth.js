@@ -32,6 +32,7 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const userdata = await user.findOne({ email: email });
+    
     if (userdata) {
       if (password === userdata.password) {
         const token = jwt.sign({id: userdata._id}, key);
