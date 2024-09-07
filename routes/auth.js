@@ -4,7 +4,7 @@ const user = require("../Models/User");
 const jwt = require('jsonwebtoken');
 const userdetails = require("../middleware/userdetails");
 
-const key = process.env.secretkey;
+const key = process.env.SECRET_KEY;
 
 router.post("/register", async (req, res) => {
   try {
