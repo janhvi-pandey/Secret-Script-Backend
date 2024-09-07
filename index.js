@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connectmongo = require('./Database/db');
+const path = require('path');
+const connectmongo = require(path.resolve(__dirname, 'Database/db'));
+
 const cors = require('cors');
 
 const app = express();
