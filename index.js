@@ -1,14 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const path = require('path');
-const connectmongo = require(path.resolve(__dirname, 'Database/db'));
+
+const connectmongo = require('./database/db');
+
 
 const cors = require('cors');
 
 const app = express();
 dotenv.config();
 app.use(cors({
-    origin: 'https://secret-script-io.vercel.app',
+    origin: ['https://secret-script-io.vercel.app', 'http://localhost:3000'], // Add localhost for local development
     credentials: true
 }));
 app.use(express.json());
