@@ -8,15 +8,15 @@ const cors = require('cors');
 
 const app = express();
 dotenv.config();
-app.use(cors({
-    origin: 'http://localhost:3000', // Allow your frontend domain
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-  }));
 // app.use(cors({
-//     origin: ['https://secret-script-io.vercel.app', 'http://localhost:3000'], // Add localhost for local development
-//     credentials: true
-// }));
+//     origin: 'http://localhost:3000', // Allow your frontend domain
+//     methods: 'GET,POST,PUT,DELETE',
+//     allowedHeaders: 'Content-Type,Authorization',
+//   }));
+app.use(cors({
+    origin: ['https://secret-script-io.vercel.app', 'http://localhost:3000'], // Add localhost for local development
+    credentials: true
+}));
 app.use(express.json());
 connectmongo();
 
