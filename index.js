@@ -1,29 +1,33 @@
-const express = require('express');
-const dotenv = require('dotenv');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const connectmongo = require("./database/db");
 
-const connectmongo = require('./database/db');
-
-
-const cors = require('cors');
+dotenv.config();
 
 const app = express();
-dotenv.config();
-// app.use(cors({
-//     origin: 'http://localhost:3000', // Allow your frontend domain
-//     methods: 'GET,POST,PUT,DELETE',
-//     allowedHeaders: 'Content-Type,Authorization',
-//   }));
-app.use(cors({
-    origin: ['https://secret-script-io.vercel.app', 'http://localhost:3000'], // Add localhost for local development
-    credentials: true
-}));
+
+// CORS Configuration
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://secret-script-io.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "token"],
+    credentials: true,
+  })
+);
+
+app.options("*", cors()); // Handle OPTIONS requests
+
 app.use(express.json());
 connectmongo();
 
-app.use('/auth', require('./routes/auth'));
-app.use('/notes', require('./routes/notes'));
-app.get('/', (req, res) => {
-    res.send('Server is running perfectly');
+app.use("/auth", require("./routes/auth"));
+app.use("/notes", require("./routes/notes"));
+
+app.get("/", (req, res) => {
+  res.send("Server is running perfectly");
 });
 
-module.exports = app;
+const PORT = process.env.PORT || 5005;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
