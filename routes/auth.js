@@ -4,7 +4,7 @@ const User = require("../Models/User");
 const jwt = require("jsonwebtoken");
 const userdetails = require("../middleware/userdetails");
 const bcrypt = require("bcryptjs");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const baseURL = "https://secret-script-io.vercel.app"|| "http://localhost:5005";
 const key = process.env.SECRET_KEY;
 

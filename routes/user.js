@@ -22,8 +22,6 @@ const fs = require("fs");
 router.put(
   "/editprofile",
   userdetails, 
-  
-
   upload.single("photoURL"),
   async (req, res) => {
     try {
@@ -42,6 +40,7 @@ router.put(
         // Upload image to Cloudinary
         const localPath =  path.resolve(req.file.path) ;
         const cloudinaryResult = await imageUpload(localPath);
+        // console.log(cloudinaryResult)
         if (cloudinaryResult) {
           user.photoURL = cloudinaryResult.secure_url; // Save the Cloudinary URL in the database
         } else {
@@ -51,7 +50,7 @@ router.put(
         // Clean up the local file after uploading to Cloudinary
         fs.unlinkSync(localPath);
       }
-
+    //  console.log(user.photoURL);
       // Save updated user data in the database
       await user.save();
       res.json({ success: true, user });  // Return updated user data
