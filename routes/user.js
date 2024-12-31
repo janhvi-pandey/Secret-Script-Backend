@@ -1,29 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../Models/User");
-const jwt = require("jsonwebtoken");
 const userdetails = require("../middleware/userdetails");
 const { imageUpload } = require("../services/Cloudinary");
-const multer = require("multer");
+const {upload}= require('../middleware/UploadImage');
 const path = require("path");
 const fs = require("fs");
 
-// Middleware for file upload (multer)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Folder to store temporarily uploaded files
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
-  },
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // Max file size: 5MB
+// // Middleware for file upload (multer)
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "tmp/uploads"); // Folder to store temporarily uploaded files
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+//   },
+// });
+// const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // Max file size: 5MB
 
 // Route: Edit user profile
 router.put(
   "/editprofile",
-  userdetails, // Middleware to validate user token
-  upload.single("photoURL"), // Handle single image upload
+  userdetails, 
+  
+
+  upload.single("photoURL"),
   async (req, res) => {
     try {
       const { name, email } = req.body;
@@ -39,7 +40,8 @@ router.put(
       // Update photoURL if a new photo was uploaded
       if (req.file) {
         // Upload image to Cloudinary
-        const cloudinaryResult = await imageUpload(req.file.path);
+        const localPath =  path.resolve(req.file.path) ;
+        const cloudinaryResult = await imageUpload(localPath);
         if (cloudinaryResult) {
           user.photoURL = cloudinaryResult.secure_url; // Save the Cloudinary URL in the database
         } else {
@@ -47,7 +49,7 @@ router.put(
         }
 
         // Clean up the local file after uploading to Cloudinary
-        fs.unlinkSync(req.file.path);
+        fs.unlinkSync(localPath);
       }
 
       // Save updated user data in the database
