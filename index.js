@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 // Security headers
-app.use(helmet());
+// app.use(helmet());
 
 // app.use(cors());
 
@@ -37,7 +37,7 @@ app.use(
 // Serve static files from the 'images' folder
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// app.options("*", cors()); // Handle OPTIONS requests
+app.options("*", cors()); // Handle OPTIONS requests
 
 // Rate limiting
 // const limiter = rateLimit({
