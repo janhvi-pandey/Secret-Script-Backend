@@ -14,12 +14,22 @@ const app = express();
 app.use(helmet());
 
 // app.use(cors());
-//CORS Configuration
+
+// Allow CORS for all origins or restrict as needed
+// app.use(
+//   cors({
+//     origin: "*", // Allow all origins for development. Replace with specific origins in production.
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization","token"],
+//     credentials: true,
+//   })
+// );
+// CORS Configuration
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://secret-script-io.vercel.app"],
-    // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    // allowedHeaders: ["Content-Type", "Authorization", "token"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "token"],
     credentials: true,
   })
 );
