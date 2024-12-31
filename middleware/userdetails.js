@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const key = process.env.SECRET_KEY;
 
 const userdetails = (req, res, next) => {
   const token = req.header("token");
@@ -11,7 +10,7 @@ const userdetails = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    //   console.log("Token decoded successfully:", decoded);
+      // console.log("Token decoded successfully:", decoded);
     req.user = decoded;
     next();
   } catch (error) {

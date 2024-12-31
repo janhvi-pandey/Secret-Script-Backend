@@ -10,7 +10,9 @@ const userSchema = new Schema({
     required:true,
     unique:true,
   },
-  password:String,
+  nickname: { type: String },
+  password:{ type: String },
+  photoURL: { type: String },
 });
 
 const User = mongoose.model('User',userSchema);
