@@ -171,7 +171,7 @@ console.log(req.body)
 
 // Route: Change password
 router.post(
-  "/change-password",
+  "/changepassword",
   userdetails,
   async (req, res) => {
     try {
@@ -187,14 +187,7 @@ router.post(
         return res.status(400).json({ message: "Current password is incorrect" });
       }
 
-      if (!isValidPassword(newPassword)) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "New password must be at least 8 characters long, include one uppercase letter, one number, and one special character",
-          });
-      }
+    
 
       user.password = await bcrypt.hash(newPassword, 10);
       await user.save();
