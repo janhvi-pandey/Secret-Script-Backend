@@ -48,15 +48,17 @@ router.post(
       // Hash password before saving
       const hashedPassword = await bcrypt.hash(password, 10);
       const defaultPhotoURL = `${baseURL}/images/default.png`;
+      const authmethod="manual";
       const usercreated = await User.create({
         name,
         email,
         password: hashedPassword,
-        photoURL:defaultPhotoURL
+        photoURL:defaultPhotoURL,
+        authmethod:authmethod,
       });
 
       const token = jwt.sign({ id: usercreated._id }, key, { expiresIn: "1d" });
-      console.log(token)
+      // console.log(token)
       res.json({ user: usercreated, token, alreadyexist: false });
     } catch (error) {
       console.error("Error during registration:", error.message);
@@ -97,21 +99,24 @@ router.post("/login", async (req, res) => {
 // Route: Google Login
 router.post("/google-login", async (req, res) => {
   try {
-    const { email, name, photoURL } = req.body;
-
+    const { email, name, photoURL,authmethod } = req.body;
+    // console.log({authmethod})
     let existingUser = await User.findOne({ email });
+     
     if (!existingUser) {
       existingUser = await User.create({
         name,
-        email,
+        email, 
+        authmethod,
         photoURL,
+       
       });
     }
     // } else {
     //   // existingUser.photoURL = photoURL;
     //   await existingUser.save();
     // }
-
+    
     const token = jwt.sign({ id: existingUser._id }, key, { expiresIn: "1d" });
     res.json({ success: true, token, user: existingUser });
   } catch (error) {
@@ -142,7 +147,7 @@ router.put(
   async (req, res) => {
     try {
       const { name, email, photoURL } = req.body;
-console.log(req.body)
+// console.log(req.body)
       const user = await User.findById(req.user.id);
       // console.log(user)
       if (!user) {

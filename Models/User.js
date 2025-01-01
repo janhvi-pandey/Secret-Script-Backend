@@ -10,7 +10,7 @@ const userSchema = new Schema({
     required:true,
     unique:true,
   },
-  nickname: { type: String },
+  authmethod: { type: String }, 
   password:{ type: String },
   photoURL: { type: String },
 });
