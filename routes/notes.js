@@ -87,4 +87,18 @@ router.delete("/deletenote/:id", userdetails, async (req, res) => {
   }
 });
 
+//Route: To get the total no of notes
+
+router.get("/totalnotes",async(req,res)=>{
+  try {
+    const notescount=await Notes.countDocuments();
+    res.json({totalnotes:notescount});
+  } catch (error) {
+    console.error("Error getting total notes:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+    
+  }
+}
+);
+
 module.exports = router;

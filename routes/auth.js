@@ -192,8 +192,6 @@ router.post(
         return res.status(400).json({ message: "Current password is incorrect" });
       }
 
-    
-
       user.password = await bcrypt.hash(newPassword, 10);
       await user.save();
       res.json({ success: true, message: "Password updated successfully" });
@@ -204,4 +202,17 @@ router.post(
   }
 );
 
+//Route: To get the total no of users
+
+router.get("/totalusers",async(req,res)=>{
+  try {
+    const usercount=await User.countDocuments();
+    res.json({totalusers:usercount});
+  } catch (error) {
+    console.error("Error getting total users:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+    
+  }
+
+})
 module.exports = router;
